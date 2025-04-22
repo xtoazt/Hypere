@@ -1,0 +1,12 @@
+{
+  "version": 2,
+  "public": true,
+  "builds": [
+    { "src": "api/computer.js", "use": "@vercel/node" },
+    { "src": "public/index.html", "use": "@vercel/static" }
+  ],
+  "routes": [
+    { "src": "/api/computer", "dest": "/api/computer.js" },
+    { "src": "/(.*)", "dest": "/public/index.html" }
+  ]
+}
