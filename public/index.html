@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <title>Hyperbeam Web App</title>
+    <meta charset="UTF-8" />
+    <style>
+      body {
+        font-family: sans-serif;
+        text-align: center;
+      }
+    </style>
+  </head>
+  <body>
+    <h1>Virtual Computer</h1>
+    <button id="gotoYouTubeBtn">Open Google</button>
+    <p>Current website: <span id="currentSite"></span></p>
+    <div id="virtualComputerDiv" style="height: 720px; width: 1280px; margin: auto;"></div>
+
+    <script type="module">
+      import Hyperbeam from "https://unpkg.com/@hyperbeam/web@latest/dist/index.js";
+
+      const response = await fetch("/api/computer");
+      const data = await response.json();
+      const hb = await Hyperbeam(virtualComputerDiv, data.embed_url);
+
+      gotoYouTubeBtn.addEventListener("click", () => {
+        hb.tabs.update({ url: "https://google.com" });
+      });
+
+      hb.tabs.onUpdated.addListener((tabId, changeInfo) => {
+        if (changeInfo.title) currentSite.innerText = changeInfo.title;
+      });
+    </script>
+  </body>
+</html>
